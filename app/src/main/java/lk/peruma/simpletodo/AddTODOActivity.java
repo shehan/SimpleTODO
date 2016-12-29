@@ -90,7 +90,7 @@ public class AddTODOActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        finish();
                     }
                 }
         );
@@ -105,6 +105,7 @@ public class AddTODOActivity extends AppCompatActivity {
                         SimpleTODO simpleTODO = new SimpleTODO(AddTODOActivity.this, title, description, due);
                         if (simpleTODO.Save()) {
                             Toast.makeText(AddTODOActivity.this, "TODO Successfully Saved!", Toast.LENGTH_SHORT).show();
+                            finish();
                         } else {
                             Toast.makeText(AddTODOActivity.this, "TODO Not Saved", Toast.LENGTH_SHORT).show();
                         }
