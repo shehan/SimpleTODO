@@ -45,7 +45,6 @@ public class MyTODOsActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(MyTODOsActivity.this, "FAB Clicked!", Toast.LENGTH_SHORT).show();
                         Intent addIntent = new Intent("lk.peruma.simpletodo.AddTODOActivity");
                         startActivity(addIntent);
                     }
