@@ -1,5 +1,6 @@
 package lk.peruma.simpletodo;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,6 +42,8 @@ public class MyTODOsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(MyTODOsActivity.this, "FAB Clicked!", Toast.LENGTH_SHORT).show();
+                        Intent addIntent = new Intent("lk.peruma.simpletodo.AddTODOActivity");
+                        startActivity(addIntent);
                     }
                 }
         );
