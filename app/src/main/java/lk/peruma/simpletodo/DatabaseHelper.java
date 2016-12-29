@@ -72,6 +72,16 @@ class DatabaseHelper extends SQLiteOpenHelper {
         return db.update(TABLE_TODO,contentValues,"ID=?",new String[]{ID.toString()});
     }
 
+    int SetStatus(Long ID,String Status, Date Updated){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TABLE_TODO_ID,ID);
+        contentValues.put(TABLE_TODO_STATUS,Status);
+        contentValues.put(TABLE_TODO_UPDATED,Updated.getTime());
+
+        return db.update(TABLE_TODO,contentValues,"ID=?",new String[]{ID.toString()});
+    }
+
     int DeleteTODO(Long ID){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_TODO,"ID=?",new String[]{ID.toString()});
