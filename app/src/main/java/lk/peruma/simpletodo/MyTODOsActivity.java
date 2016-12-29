@@ -12,10 +12,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.IntentFilter;
+import android.app.Dialog;
 
 public class MyTODOsActivity extends AppCompatActivity {
 
@@ -78,6 +82,20 @@ public class MyTODOsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
+            final Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.dialog_about);
+            dialog.setTitle("About");
+
+            Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+            // if button is clicked, close the custom dialog
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
             return true;
         }
 
