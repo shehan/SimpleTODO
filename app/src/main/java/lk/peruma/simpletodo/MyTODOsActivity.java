@@ -1,7 +1,9 @@
 package lk.peruma.simpletodo;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
@@ -97,6 +99,29 @@ public class MyTODOsActivity extends AppCompatActivity {
 
             dialog.show();
             return true;
+        }
+
+        if(id == R.id.action_deleteCompleted){
+
+            //Put up the Yes/No message box
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder
+                    .setTitle("Delete Completed TODO's")
+                    .setMessage("Are you sure? This action cannot be reverted.")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                             if (SimpleTODO.DeleteAllCompleted(MyTODOsActivity.this)) {
+                                 loadListView();
+                                 Toast.makeText(MyTODOsActivity.this, "Completed TODO's deleted!", Toast.LENGTH_SHORT).show();
+                             }
+                            else{
+                                 Toast.makeText(MyTODOsActivity.this, "Unable to delete completed TODOs", Toast.LENGTH_SHORT).show();
+                             }
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
         }
 
         return super.onOptionsItemSelected(item);
