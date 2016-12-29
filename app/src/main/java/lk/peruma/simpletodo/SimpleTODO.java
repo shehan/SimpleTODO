@@ -81,8 +81,8 @@ class SimpleTODO {
         return false;
     }
 
-    public boolean Delete(Long id){
-        int affectedRow = db_helper.DeleteTODO(id);
+    public boolean Delete(){
+        int affectedRow = db_helper.DeleteTODO(this.id);
         if (affectedRow >0){
             return true;
         }
