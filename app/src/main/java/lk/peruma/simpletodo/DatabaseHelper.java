@@ -87,6 +87,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
         return db.delete(TABLE_TODO,"ID=?",new String[]{ID.toString()});
     }
 
+    int DeleteAllByStatus(String Status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_TODO,"STATUS=?",new String[]{Status.toString()});
+    }
+
     Cursor GetAllTODO(){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * FROM "+TABLE_TODO,null);
