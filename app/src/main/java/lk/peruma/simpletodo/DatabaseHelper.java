@@ -79,7 +79,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     Cursor GetAllTODO(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+TABLE_TODO,null);
-        return  cursor;
+        return db.rawQuery("SELECT * FROM "+TABLE_TODO,null);
+    }
+
+    Cursor GetAllTODOBByStatus(String Status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM "+TABLE_TODO+ " WHERE "+TABLE_TODO_STATUS+" = '"+Status+"'",null);
     }
 }
