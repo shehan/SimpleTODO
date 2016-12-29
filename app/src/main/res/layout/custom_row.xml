@@ -5,26 +5,27 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
+        android:text="@string/title"
         android:layout_columnWeight="1"
         android:id="@+id/textViewTitle"
         android:layout_row="0"
         android:layout_column="1"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DueDate"
+        android:text="@string/duedate"
         android:layout_columnWeight="1"
         android:id="@+id/textViewDue"
         android:layout_row="1"
         android:layout_column="1"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 </GridLayout>
