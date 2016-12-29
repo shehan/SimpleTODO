@@ -118,10 +118,10 @@ class SimpleTODO {
             Long id = results.getLong(0);
             String title = results.getString(1);
             String description = results.getString(2);
-            Date due = new Date(results.getInt(3));
+            Date due = new Date(results.getLong(3));
             StatusEnum status = StatusEnum.valueOf(results.getString(4));
-            Date created = new Date(results.getInt(5));
-            Date updated = new Date(results.getInt(6));
+            Date created = new Date(results.getLong(5));
+            Date updated = new Date(results.getLong(6));
 
             simpleTODO = new SimpleTODO(context,id,title,description,due,status,created,updated);
             simpleTODOList.add(simpleTODO);
