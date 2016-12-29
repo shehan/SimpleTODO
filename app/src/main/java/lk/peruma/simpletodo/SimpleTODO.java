@@ -1,9 +1,12 @@
 package lk.peruma.simpletodo;
 
 import android.content.Context;
+import android.database.Cursor;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 public class SimpleTODO {
@@ -15,7 +18,7 @@ public class SimpleTODO {
     private Date created;
     private Date updated;
 
-    DatabaseHelper db_helper;
+    static DatabaseHelper db_helper;
 
 
     public SimpleTODO(Context context, String Title, String Description, Date Due) {
@@ -27,6 +30,18 @@ public class SimpleTODO {
         this.status = StatusEnum.OPEN;
         this.created = Calendar.getInstance().getTime();
         this.updated = this.created = Calendar.getInstance().getTime();
+    }
+
+    public SimpleTODO(Context context, Long ID, String Title, String Description, Date Due,StatusEnum Status, Date Created, Date Updated) {
+        db_helper = new DatabaseHelper(context);
+
+        this.id = ID;
+        this.title = Title;
+        this.description = Description;
+        this.due = Due;
+        this.status = Status;
+        this.created = Created;
+        this.updated = Updated;
     }
 
     public Long getId() {
@@ -50,7 +65,7 @@ public class SimpleTODO {
     }
 
     public boolean Update() {
-        int affectedRow = db_helper.UpdateTODO(this.id,this.title,this.description,this.due,this.status.toString(),this.updated);
+        int affectedRow = db_helper.UpdateTODO(this.id,this.title,this.description,this.due,this.status.name(),this.updated);
         if (affectedRow >0){
             return true;
         }
@@ -58,7 +73,7 @@ public class SimpleTODO {
     }
 
     public boolean Save() {
-        long insertID = db_helper.InsertTODO(this.title,this.description,this.due,this.status.toString(),this.created,this.updated);
+        long insertID = db_helper.InsertTODO(this.title,this.description,this.due,this.status.name(),this.created,this.updated);
         if (insertID !=-1){
             this.id = insertID;
             return true;
@@ -74,6 +89,24 @@ public class SimpleTODO {
         return false;
     }
 
+    public static List<SimpleTODO> GetAllTODOs(Context context){
+        List<SimpleTODO> simpleTODOList = new ArrayList<SimpleTODO>();
+        Cursor results = db_helper.GetAllTODO();
+        SimpleTODO simpleTODO;
+        while (results.moveToNext()){
+            Long id = results.getLong(0);
+            String title = results.getString(1);
+            String description = results.getString(2);
+            Date due = new Date(results.getInt(3));
+            StatusEnum status = StatusEnum.valueOf(results.getString(4));
+            Date created = new Date(results.getInt(5));
+            Date updated = new Date(results.getInt(6));
+
+            simpleTODO = new SimpleTODO(context,id,title,description,due,status,created,updated);
+            simpleTODOList.add(simpleTODO);
+        }
+        return simpleTODOList;
+    }
 
 
     public enum StatusEnum{
