@@ -72,10 +72,11 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:textAppearance="@android:style/TextAppearance.Material.Headline"
-        android:hint="Description" />
+        android:hint="Description"
+        android:enabled="false"/>
 
     <TextView
-        android:text="Due Date"
+        android:text="Due On"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editTextDescription"
@@ -86,7 +87,23 @@
         android:textAppearance="@android:style/TextAppearance.Material.Headline" />
 
 
-    <DatePicker
+    <EditText
+        android:id="@+id/datePickerDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight=".5"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_below="@+id/textView6"
+        android:hint="Date"
+        android:inputType="date"
+        android:layout_marginTop="11dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:enabled="false"
+        android:focusable="false"/>
+
+<!--    <DatePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/datePickerDueDate"
@@ -96,7 +113,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/buttonCancel"
-        android:calendarViewShown="false" />
+        android:calendarViewShown="false" />-->
 
     <Button
         android:text="Save"
@@ -106,6 +123,7 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/textView2"
         android:layout_toEndOf="@+id/textView2"
+        android:enabled="false"
         android:layout_marginLeft="26dp"
         android:layout_marginStart="26dp" />
 
