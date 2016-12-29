@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class SimpleTODO {
+class SimpleTODO {
     private String title;
     private String description;
     private Date due;
@@ -18,7 +18,7 @@ public class SimpleTODO {
     private Date created;
     private Date updated;
 
-    static DatabaseHelper db_helper;
+    private static DatabaseHelper db_helper;
 
 
     public SimpleTODO(Context context, String Title, String Description, Date Due) {
@@ -32,7 +32,7 @@ public class SimpleTODO {
         this.updated = this.created = Calendar.getInstance().getTime();
     }
 
-    public SimpleTODO(Context context, Long ID, String Title, String Description, Date Due,StatusEnum Status, Date Created, Date Updated) {
+    private SimpleTODO(Context context, Long ID, String Title, String Description, Date Due,StatusEnum Status, Date Created, Date Updated) {
         db_helper = new DatabaseHelper(context);
 
         this.id = ID;
@@ -90,9 +90,29 @@ public class SimpleTODO {
     }
 
     public static List<SimpleTODO> GetAllTODOs(Context context){
+        return GetAllTODOByStatus(context,null);
+    }
+
+    public static List<SimpleTODO> GetAllClosedTODOs(Context context){
+        return GetAllTODOByStatus(context,StatusEnum.CLOSED);
+    }
+
+    public static List<SimpleTODO> GetAllOpenTODOs(Context context){
+        return GetAllTODOByStatus(context,StatusEnum.OPEN);
+    }
+
+    private static List<SimpleTODO> GetAllTODOByStatus(Context context, StatusEnum Status){
         List<SimpleTODO> simpleTODOList = new ArrayList<SimpleTODO>();
-        Cursor results = db_helper.GetAllTODO();
+        Cursor results;
         SimpleTODO simpleTODO;
+
+        if (Status == null)
+             results = db_helper.GetAllTODO();
+        else if (Status == StatusEnum.OPEN)
+            results = db_helper.GetAllTODOBByStatus(StatusEnum.OPEN.name());
+        else
+            results = db_helper.GetAllTODOBByStatus(StatusEnum.CLOSED.name());
+
         while (results.moveToNext()){
             Long id = results.getLong(0);
             String title = results.getString(1);
