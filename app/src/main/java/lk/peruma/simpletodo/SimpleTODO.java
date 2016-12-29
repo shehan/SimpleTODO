@@ -29,7 +29,7 @@ class SimpleTODO {
         this.due = Due;
         this.status = StatusEnum.OPEN;
         this.created = Calendar.getInstance().getTime();
-        this.updated = this.created = Calendar.getInstance().getTime();
+        this.updated = Calendar.getInstance().getTime();
     }
 
     private SimpleTODO(Context context, Long ID, String Title, String Description, Date Due,StatusEnum Status, Date Created, Date Updated) {
@@ -56,8 +56,11 @@ class SimpleTODO {
         return description;
     }
 
-    public StatusEnum getStatus() {
-        return status;
+    public boolean IsCompleted() {
+        if (status.name().equals("CLOSED"))
+            return true;
+        else
+            return false;
     }
 
     public Date getDue() {
@@ -83,6 +86,26 @@ class SimpleTODO {
 
     public boolean Delete(){
         int affectedRow = db_helper.DeleteTODO(this.id);
+        if (affectedRow >0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean SetAsCompleted()
+    {
+        return UpdateStatus(StatusEnum.CLOSED);
+    }
+
+    public boolean SetAsNotStarted()
+    {
+        return UpdateStatus(StatusEnum.OPEN);
+    }
+
+    private boolean UpdateStatus(StatusEnum status)
+    {
+        this.updated = Calendar.getInstance().getTime();
+        int affectedRow = db_helper.SetStatus(this.id,status.name(),this.updated);
         if (affectedRow >0){
             return true;
         }
