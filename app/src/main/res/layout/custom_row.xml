@@ -1,31 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
+    android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title"
         android:layout_columnWeight="1"
         android:id="@+id/textViewTitle"
         android:layout_row="0"
-        android:layout_column="1"
+        android:layout_column="0"
         android:layout_margin="5dp"
         android:textAppearance="@android:style/TextAppearance.Material.Headline" />
 
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/duedate"
         android:layout_columnWeight="1"
         android:id="@+id/textViewDue"
         android:layout_row="1"
-        android:layout_column="1"
-        android:layout_marginBottom="5dp"
+        android:layout_column="0"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_delete"
+        android:layout_rowSpan="2"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/imageButtonDelete"
+        android:layout_gravity="right"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:layout_rowSpan="2"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="55dp"
+        android:id="@+id/imageButtonEdit"
+        android:layout_gravity="right"/>
 </GridLayout>
