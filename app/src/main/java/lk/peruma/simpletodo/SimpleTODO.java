@@ -102,6 +102,7 @@ class SimpleTODO {
     }
 
     private static List<SimpleTODO> GetAllTODOByStatus(Context context, StatusEnum Status){
+        db_helper = new DatabaseHelper(context);
         List<SimpleTODO> simpleTODOList = new ArrayList<SimpleTODO>();
         Cursor results;
         SimpleTODO simpleTODO;
