@@ -116,7 +116,7 @@ public class MyTODOsActivity extends AppCompatActivity {
                                  Toast.makeText(MyTODOsActivity.this, "Completed TODO's deleted!", Toast.LENGTH_SHORT).show();
                              }
                             else{
-                                 Toast.makeText(MyTODOsActivity.this, "Unable to delete completed TODOs", Toast.LENGTH_SHORT).show();
+                                 Toast.makeText(MyTODOsActivity.this, "Unable to delete completed TODO's", Toast.LENGTH_SHORT).show();
                              }
                         }
                     })
