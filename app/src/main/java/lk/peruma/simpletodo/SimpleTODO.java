@@ -102,6 +102,25 @@ class SimpleTODO {
         return UpdateStatus(StatusEnum.OPEN);
     }
 
+    public static boolean DeleteAllCompleted(Context context)
+    {
+        return DeleteByStatus(context, StatusEnum.CLOSED);
+    }
+
+    public static boolean DeleteAllNotStarted(Context context)
+    {
+        return DeleteByStatus(context, StatusEnum.OPEN);
+    }
+
+    private static boolean DeleteByStatus(Context context, StatusEnum Status){
+        db_helper = new DatabaseHelper(context);
+        int affectedRow = db_helper.DeleteAllByStatus(Status.name());
+        if (affectedRow >0){
+            return true;
+        }
+        return false;
+    }
+
     private boolean UpdateStatus(StatusEnum status)
     {
         this.updated = Calendar.getInstance().getTime();
