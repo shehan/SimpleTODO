@@ -1,7 +1,10 @@
 package lk.peruma.simpletodo;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.content.IntentFilter;
 
 public class MyTODOsActivity extends AppCompatActivity {
 
     private ListView mainListView;
     private FloatingActionButton actionButton;
+    ListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +28,7 @@ public class MyTODOsActivity extends AppCompatActivity {
         mainListView = (ListView) findViewById(R.id.myTODOListView);
         actionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
 
-        ListAdapter adapter  = new CustomAdapter(this, SimpleTODO.GetAllTODOs(this));
-        mainListView.setAdapter(adapter);
+        loadListView();
 
         mainListView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
@@ -49,4 +53,32 @@ public class MyTODOsActivity extends AppCompatActivity {
         );
 
     }
+
+    private void loadListView(){
+        adapter  = new CustomAdapter(this, SimpleTODO.GetAllTODOs(this));
+        mainListView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadListView();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("ListViewDataUpdated"));
+    }
+
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onPause();
+    }
+
+
+    private BroadcastReceiver mMessageReceiver= new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            loadListView();
+        }
+    };
 }

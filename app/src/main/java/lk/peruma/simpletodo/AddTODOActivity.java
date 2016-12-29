@@ -1,6 +1,8 @@
 package lk.peruma.simpletodo;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -105,6 +107,10 @@ public class AddTODOActivity extends AppCompatActivity {
                         SimpleTODO simpleTODO = new SimpleTODO(AddTODOActivity.this, title, description, due);
                         if (simpleTODO.Save()) {
                             Toast.makeText(AddTODOActivity.this, "TODO Successfully Saved!", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent("ListViewDataUpdated");
+                            LocalBroadcastManager.getInstance(v.getContext()).sendBroadcast(intent);
+
                             finish();
                         } else {
                             Toast.makeText(AddTODOActivity.this, "TODO Not Saved", Toast.LENGTH_SHORT).show();
