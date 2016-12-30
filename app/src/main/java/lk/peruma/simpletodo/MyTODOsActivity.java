@@ -38,7 +38,7 @@ public class MyTODOsActivity extends AppCompatActivity {
         mainListView = (ListView) findViewById(R.id.myTODOListView);
         actionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
 
-        loadListView();
+        loadListView("Title");
 
         mainListView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
@@ -63,8 +63,8 @@ public class MyTODOsActivity extends AppCompatActivity {
 
     }
 
-    private void loadListView(){
-        adapter  = new CustomAdapter(this, SimpleTODO.GetAllTODOs(this));
+    private void loadListView(String SortColumn){
+        adapter  = new CustomAdapter(this, SimpleTODO.GetAllTODOs(this,SortColumn));
         mainListView.setAdapter(adapter);
     }
 
@@ -112,7 +112,7 @@ public class MyTODOsActivity extends AppCompatActivity {
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                              if (SimpleTODO.DeleteAllCompleted(MyTODOsActivity.this)) {
-                                 loadListView();
+                                 loadListView("Title");
                                  Toast.makeText(MyTODOsActivity.this, "Completed TODO's deleted!", Toast.LENGTH_SHORT).show();
                              }
                             else{
@@ -124,13 +124,21 @@ public class MyTODOsActivity extends AppCompatActivity {
                     .show();
         }
 
+        if(id == R.id.action_sortDue){
+            loadListView("Due");
+        }
+
+        if(id == R.id.action_sortTitle){
+            loadListView("Title");
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        loadListView();
+        loadListView("Title");
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("ListViewDataUpdated"));
     }
 
@@ -146,7 +154,7 @@ public class MyTODOsActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            loadListView();
+            loadListView("Title");
         }
     };
 }

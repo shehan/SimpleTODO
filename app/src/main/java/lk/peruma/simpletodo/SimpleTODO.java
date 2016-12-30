@@ -5,6 +5,8 @@ import android.database.Cursor;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -131,8 +133,15 @@ class SimpleTODO {
         return false;
     }
 
-    public static List<SimpleTODO> GetAllTODOs(Context context){
-        return GetAllTODOByStatus(context,null);
+    public static List<SimpleTODO> GetAllTODOs(Context context,String SortColumn){
+        List<SimpleTODO> data = GetAllTODOByStatus(context,null);
+
+        if (SortColumn.equals("Title"))
+            Collections.sort(data, SimpleTODO.COMPARE_BY_TITLE);
+        else
+            Collections.sort(data, SimpleTODO.COMPARE_BY_DUE);
+
+        return  data;
     }
 
     public static List<SimpleTODO> GetAllClosedTODOs(Context context){
@@ -170,6 +179,20 @@ class SimpleTODO {
         }
         return simpleTODOList;
     }
+
+    public static Comparator<SimpleTODO> COMPARE_BY_TITLE = new Comparator<SimpleTODO>() {
+        @Override
+        public int compare(SimpleTODO o1, SimpleTODO o2) {
+            return o1.title.compareToIgnoreCase(o2.title);
+        }
+    };
+
+    public static Comparator<SimpleTODO> COMPARE_BY_DUE = new Comparator<SimpleTODO>() {
+        @Override
+        public int compare(SimpleTODO o1, SimpleTODO o2) {
+            return o1.due.compareTo(o2.due);
+        }
+    };
 
 
     public enum StatusEnum{
