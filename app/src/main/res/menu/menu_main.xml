@@ -4,13 +4,8 @@
     tools:context="lk.peruma.myapplication7.MainActivity">
     <item
         android:id="@+id/action_about"
-        android:orderInCategory="104"
+        android:orderInCategory="103"
         android:title="@string/menu_about"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_hideCompleted"
-        android:orderInCategory="102"
-        android:title="@string/menu_show_hide_completed_todo_s"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_sortDue"
@@ -24,7 +19,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_deleteCompleted"
-        android:orderInCategory="103"
+        android:orderInCategory="102"
         android:title="@string/menu_delete_completed_todo_s"
         app:showAsAction="never" />
 </menu>
