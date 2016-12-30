@@ -98,12 +98,12 @@
         android:inputType="date"
         android:layout_marginTop="11dp"
         android:textAppearance="@android:style/TextAppearance.Material.Headline"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:enabled="false"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:layout_toLeftOf="@+id/buttonCancel"
+        android:layout_toStartOf="@+id/buttonCancel" />
 
-<!--    <DatePicker
+    <!--    <DatePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/datePickerDueDate"
@@ -115,24 +115,41 @@
         android:layout_above="@+id/buttonCancel"
         android:calendarViewShown="false" />-->
 
+    <EditText
+        android:id="@+id/timePickerDueTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight=".5"
+        android:hint="Time"
+        android:inputType="time"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline"
+        android:enabled="false"
+        android:focusable="false"
+        android:layout_alignBaseline="@+id/datePickerDueDate"
+        android:layout_alignBottom="@+id/datePickerDueDate"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/datePickerDueDate"
+        android:layout_toEndOf="@+id/datePickerDueDate" />
+
     <Button
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/buttonSave"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2"
         android:enabled="false"
-        android:layout_marginLeft="26dp"
-        android:layout_marginStart="26dp" />
+        android:layout_below="@+id/datePickerDueDate"
+        android:layout_toRightOf="@+id/textView6"
+        android:layout_toEndOf="@+id/textView6"
+        android:layout_marginTop="31dp" />
 
     <Button
         android:text="Cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/buttonCancel"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBaseline="@+id/buttonSave"
+        android:layout_alignBottom="@+id/buttonSave"
         android:layout_toRightOf="@+id/buttonSave"
         android:layout_toEndOf="@+id/buttonSave" />
 

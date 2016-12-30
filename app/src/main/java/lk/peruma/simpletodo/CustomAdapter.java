@@ -36,7 +36,7 @@ public class CustomAdapter extends ArrayAdapter<SimpleTODO> {
     public CustomAdapter(Context context, List<SimpleTODO> TODOs) {
         super(context,R.layout.custom_row, TODOs);
 
-        dateFormatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
+        dateFormatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm aa", Locale.US);
     }
 
     @NonNull
