@@ -1,8 +1,15 @@
 package lk.peruma.simpletodo;
 
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.app.AlarmManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -152,6 +160,39 @@ public class AddTODOActivity extends AppCompatActivity {
                             Intent intent = new Intent("ListViewDataUpdated");
                             LocalBroadcastManager.getInstance(v.getContext()).sendBroadcast(intent);
 
+
+                            /* ----Start Code: Set Local Notification---- */
+                            int id =  simpleTODO.getId().intValue();
+
+                            Calendar notificationReminder = Calendar.getInstance();
+                            notificationReminder.set(year,month,day,hour,minutes);
+                            Date reminder = notificationReminder.getTime();
+
+                            AlarmManager alarmManager = (AlarmManager) getSystemService(getBaseContext().ALARM_SERVICE);
+
+                            Intent notificationIntent = new Intent(getBaseContext(),NotificationBroadcastReceiver.class);
+
+                            notificationIntent.putExtra("Notification", buildNotification(title,description,id));
+                            notificationIntent.putExtra("NotificationDate",reminder);
+                            notificationIntent.putExtra("NotificationID",id);
+
+                            PendingIntent broadcast = PendingIntent.getBroadcast(getBaseContext(), id, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTimeInMillis(System.currentTimeMillis());
+                            cal.clear();
+                            cal.set(Calendar.YEAR,year);
+                            cal.set(Calendar.MONTH,month-1);
+                            cal.set(Calendar.DATE,day);
+                            cal.set(Calendar.HOUR_OF_DAY,hour);
+                            cal.set(Calendar.MINUTE,minutes);
+
+                            Date tempDate = cal.getTime();
+
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
+                            /* ----End Code: Set Local Notification---- */
+
                             finish();
                         } else {
                             Toast.makeText(AddTODOActivity.this, "TODO Not Saved", Toast.LENGTH_SHORT).show();
@@ -161,6 +202,54 @@ public class AddTODOActivity extends AppCompatActivity {
         );
 
 
+    }
+
+
+    private Notification buildNotification(String Title, String Description, Integer ID){
+        Intent notificationIntent = new Intent(this, MyTODOsActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MyTODOsActivity.class);
+        stackBuilder.addNextIntent(notificationIntent);
+
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle("TODO: "+Title);
+        if (Description.length()!=0) {
+            builder.setContentText(Description);
+            builder.setStyle(new Notification.BigTextStyle().bigText(Description));
+        }
+        builder.setSmallIcon(android.R.drawable.star_on);
+        builder.setTicker("You have a TODO!");
+        builder.setAutoCancel(true);
+
+        Drawable largeIcon = getResources().getDrawable(android.R.drawable.star_big_on);
+        builder.setLargeIcon((((BitmapDrawable)largeIcon).getBitmap()));
+
+        builder.setContentIntent(pendingIntent);
+
+        Intent actionIntent1 = new Intent(this,MyTODOsActivity.class);
+        actionIntent1.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        actionIntent1.setAction("Email");
+        PendingIntent actionPeningIntent1 = PendingIntent.getActivity(this,0,actionIntent1,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(android.R.drawable.sym_action_email,"You've got mail!",actionPeningIntent1);
+
+        Intent actionIntent2 = new Intent(this,MyTODOsActivity.class);
+        actionIntent2.setAction("Call");
+        actionIntent2.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent actionPeningIntent2 = PendingIntent.getActivity(this,1,actionIntent2,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(android.R.drawable.sym_action_call,"Hello.Hello",actionPeningIntent2);
+
+        Intent actionIntent3 = new Intent(this,NotificationActionReceiver.class);
+        actionIntent3.putExtra("NotificationID",ID);
+
+        actionIntent3.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent actionPeningIntent3 = PendingIntent.getBroadcast(this,2,actionIntent3,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(android.R.drawable.ic_menu_close_clear_cancel,"Close",actionPeningIntent3);
+
+
+        return builder.build();
     }
 
     private static java.util.Date getDateFromDatePicket(DatePicker datePicker) {
