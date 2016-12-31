@@ -114,6 +114,24 @@ class SimpleTODO {
         return DeleteByStatus(context, StatusEnum.OPEN);
     }
 
+    public static SimpleTODO GetTODOByID(Context context,Long ID){
+        SimpleTODO item = null;
+        db_helper = new DatabaseHelper(context);
+        Cursor result = db_helper.GetTODOBByID(ID);
+        while(result.moveToNext()) {
+            Long id = result.getLong(0);
+            String title = result.getString(1);
+            String description = result.getString(2);
+            Date due = new Date(result.getLong(3));
+            StatusEnum status = StatusEnum.valueOf(result.getString(4));
+            Date created = new Date(result.getLong(5));
+            Date updated = new Date(result.getLong(6));
+
+            item = new SimpleTODO(context, id, title, description, due, status, created, updated);
+        }
+        return  item;
+    }
+
     private static boolean DeleteByStatus(Context context, StatusEnum Status){
         db_helper = new DatabaseHelper(context);
         int affectedRow = db_helper.DeleteAllByStatus(Status.name());

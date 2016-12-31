@@ -102,4 +102,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * FROM "+TABLE_TODO+ " WHERE "+TABLE_TODO_STATUS+" = '"+Status+"' ORDER BY "+TABLE_TODO_TITLE,null);
     }
+
+    Cursor GetTODOBByID(Long ID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM "+TABLE_TODO+ " WHERE "+TABLE_TODO_ID+" = '"+ID+"'",null);
+    }
 }
