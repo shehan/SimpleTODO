@@ -229,24 +229,26 @@ public class AddTODOActivity extends AppCompatActivity {
 
         builder.setContentIntent(pendingIntent);
 
-        Intent actionIntent1 = new Intent(this,MyTODOsActivity.class);
+        Intent actionIntent1 = new Intent(this,NotificationActionReceiver.class);
         actionIntent1.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        actionIntent1.setAction("Email");
-        PendingIntent actionPeningIntent1 = PendingIntent.getActivity(this,0,actionIntent1,PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(android.R.drawable.sym_action_email,"You've got mail!",actionPeningIntent1);
+        actionIntent1.setAction("Done");
+        actionIntent1.putExtra("NotificationID",ID);
+        PendingIntent actionPeningIntent1 = PendingIntent.getBroadcast(this,ID+1,actionIntent1,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(R.drawable.ic_notification_done,"Done!",actionPeningIntent1);
 
-        Intent actionIntent2 = new Intent(this,MyTODOsActivity.class);
-        actionIntent2.setAction("Call");
+        Intent actionIntent2 = new Intent(this,NotificationActionReceiver.class);
+        actionIntent2.setAction("Delete");
+        actionIntent2.putExtra("NotificationID",ID);
         actionIntent2.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent actionPeningIntent2 = PendingIntent.getActivity(this,1,actionIntent2,PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(android.R.drawable.sym_action_call,"Hello.Hello",actionPeningIntent2);
+        PendingIntent actionPeningIntent2 = PendingIntent.getBroadcast(this,ID+2,actionIntent2,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(R.drawable.ic_notification_delete,"Delete",actionPeningIntent2);
 
         Intent actionIntent3 = new Intent(this,NotificationActionReceiver.class);
+        actionIntent3.setAction("Close");
         actionIntent3.putExtra("NotificationID",ID);
-
         actionIntent3.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent actionPeningIntent3 = PendingIntent.getBroadcast(this,2,actionIntent3,PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(android.R.drawable.ic_menu_close_clear_cancel,"Close",actionPeningIntent3);
+        PendingIntent actionPeningIntent3 = PendingIntent.getBroadcast(this,ID+3,actionIntent3,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(R.drawable.ic_notification_close,"Close",actionPeningIntent3);
 
 
         return builder.build();

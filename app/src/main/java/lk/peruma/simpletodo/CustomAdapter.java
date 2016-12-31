@@ -106,7 +106,7 @@ public class CustomAdapter extends ArrayAdapter<SimpleTODO> {
             imageDelete.setEnabled(false);
 
             Resources res = getContext().getResources();
-            Drawable img = res.getDrawable(android.R.drawable.ic_popup_sync);
+            Drawable img = res.getDrawable(R.drawable.ic_action_undo);
             imageCompleted.setImageDrawable(img);
         }
 
