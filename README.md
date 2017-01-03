@@ -29,8 +29,8 @@ Following are screenshots of the app
 <td>Delete Completed TODO's</td>
 </tr>
 <tr>
-<td><img src='http://imgur.com/IJvcSbo.png' width='50%' height='50%'></td>
-<td><img src='http://imgur.com/HmP6RLE.png' width='50%' height='50%'></td>
+<td><img src='http://imgur.com/IJvcSbo.png'></td>
+<td><img src='http://imgur.com/HmP6RLE.png'></td>
 </tr>
 </table>
 
@@ -44,6 +44,18 @@ Following are screenshots of the app
 <td><img src='http://imgur.com/c6Xr7Lp.png'></td>
 </tr>
 </table>
+
+<table>
+<tr>
+<td>Set Reminder Date</td>
+<td>Set Reminder Time</td>
+</tr>
+<tr>
+<td><img src='http://imgur.com/YSrisOh.png'></td>
+<td><img src='http://imgur.com/COlQ7zv.png'></td>
+</tr>
+</table>
+
 
 <table>
 <tr>
