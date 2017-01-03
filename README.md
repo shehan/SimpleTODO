@@ -29,8 +29,8 @@ Following are screenshots of the app
 <td>Delete Completed TODO's</td>
 </tr>
 <tr>
-<td><img src='http://imgur.com/IJvcSbo.png'></td>
-<td><img src='http://imgur.com/HmP6RLE.png'></td>
+<td><img src='http://imgur.com/IJvcSbo.png' width='50%' height='50%'></td>
+<td><img src='http://imgur.com/HmP6RLE.png' width='50%' height='50%'></td>
 </tr>
 </table>
 
