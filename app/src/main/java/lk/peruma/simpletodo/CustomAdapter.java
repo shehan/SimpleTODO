@@ -1,8 +1,12 @@
 package lk.peruma.simpletodo;
 
+import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.provider.ContactsContract;
@@ -66,6 +70,9 @@ public class CustomAdapter extends ArrayAdapter<SimpleTODO> {
                             Toast.makeText(v.getContext(), singleItem.getTitle() + " has been completed!", Toast.LENGTH_SHORT).show();
                         }
 
+                        NotificationManager manager = (NotificationManager) v.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        manager.cancel(singleItem.getId().intValue());
+
                         Intent intent = new Intent("ListViewDataUpdated");
                         LocalBroadcastManager.getInstance(v.getContext()).sendBroadcast(intent);
                     }
@@ -83,12 +90,31 @@ public class CustomAdapter extends ArrayAdapter<SimpleTODO> {
                         String s = t.getText().toString();
                         */
 
-                        SimpleTODO singleItem = getItem(position);
-                        singleItem.Delete();
-                        Toast.makeText(v.getContext(), singleItem.getTitle()+" has been deleted!", Toast.LENGTH_SHORT).show();
+                        //Put up the Yes/No message box
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CustomAdapter.this.getContext());
+                        builder
+                                .setTitle("Delete TODO's")
+                                .setMessage("Are you sure? This action cannot be reverted.")
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SimpleTODO singleItem = getItem(position);
+                                        if (singleItem.Delete()) {
+                                            Toast.makeText(CustomAdapter.this.getContext(), singleItem.getTitle()+" has been deleted!", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent("ListViewDataUpdated");
-                        LocalBroadcastManager.getInstance(v.getContext()).sendBroadcast(intent);
+                                            NotificationManager manager = (NotificationManager)CustomAdapter.this.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                                            manager.cancel(singleItem.getId().intValue());
+
+                                            Intent intent = new Intent("ListViewDataUpdated");
+                                            LocalBroadcastManager.getInstance(CustomAdapter.this.getContext()).sendBroadcast(intent);
+                                        }
+                                        else{
+                                            Toast.makeText(CustomAdapter.this.getContext(), "Unable to delete TODO", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                })
+                                .setNegativeButton("No", null)
+                                .show();
                     }
                 }
         );
@@ -103,10 +129,11 @@ public class CustomAdapter extends ArrayAdapter<SimpleTODO> {
             itemTitle.setEnabled(false);
             itemDue.setEnabled(false);
             imageEdit.setEnabled(false);
-            imageDelete.setEnabled(false);
 
             Resources res = getContext().getResources();
-            Drawable img = res.getDrawable(R.drawable.ic_action_undo);
+            Drawable img = res.getDrawable(R.drawable.ic_action_edit_disabled);
+            imageEdit.setImageDrawable(img);
+            img = res.getDrawable(R.drawable.ic_action_undo);
             imageCompleted.setImageDrawable(img);
         }
 
