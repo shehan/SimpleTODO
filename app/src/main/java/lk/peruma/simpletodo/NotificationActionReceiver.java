@@ -15,8 +15,14 @@ public class NotificationActionReceiver extends BroadcastReceiver {
 
         String intentText = intent.getAction();
         switch (intentText){
-            case "Done": simpleTODO.SetAsCompleted();break;
-            case "Delete":simpleTODO.Delete();break;
+            case "Done":
+                if (simpleTODO!=null)
+                    simpleTODO.SetAsCompleted();
+                break;
+            case "Delete":
+                if (simpleTODO!=null)
+                    simpleTODO.Delete();
+                break;
             case "Close":break;
         }
 
