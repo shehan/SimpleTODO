@@ -1,5 +1,6 @@
 package lk.peruma.simpletodo;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -55,6 +57,18 @@ public class CustomAdapter extends ArrayAdapter<SimpleTODO> {
         imageEdit = (ImageView) customView.findViewById(R.id.imageButtonEdit);
         imageDelete = (ImageView) customView.findViewById(R.id.imageButtonDelete);
         imageCompleted = (ImageView) customView.findViewById(R.id.imageButtonCompleted);
+
+        imageEdit.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SimpleTODO singleItem = getItem(position);
+                        Intent editIntent = new Intent("lk.peruma.simpletodo.AddTODOActivity");
+                        editIntent.putExtra("data",singleItem);
+                        v.getContext().getApplicationContext().startActivity(editIntent);
+                    }
+                }
+        );
 
         imageCompleted.setOnClickListener(
                 new View.OnClickListener() {

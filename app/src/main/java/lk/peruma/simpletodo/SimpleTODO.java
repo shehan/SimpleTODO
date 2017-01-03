@@ -3,6 +3,7 @@ package lk.peruma.simpletodo;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -11,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 
-class SimpleTODO {
+class SimpleTODO implements Serializable {
     private String title;
     private String description;
     private Date due;
@@ -26,9 +27,9 @@ class SimpleTODO {
     public SimpleTODO(Context context, String Title, String Description, Date Due) {
         db_helper = new DatabaseHelper(context);
 
-        this.title = Title;
-        this.description = Description;
-        this.due = Due;
+        this.setTitle(Title);
+        this.setDescription(Description);
+        this.setDue(Due);
         this.status = StatusEnum.OPEN;
         this.created = Calendar.getInstance().getTime();
         this.updated = Calendar.getInstance().getTime();
@@ -38,9 +39,9 @@ class SimpleTODO {
         db_helper = new DatabaseHelper(context);
 
         this.id = ID;
-        this.title = Title;
-        this.description = Description;
-        this.due = Due;
+        this.setTitle(Title);
+        this.setDescription(Description);
+        this.setDue(Due);
         this.status = Status;
         this.created = Created;
         this.updated = Updated;
@@ -53,6 +54,7 @@ class SimpleTODO {
     public String getTitle() {
         return title;
     }
+
 
     public String getDescription() {
         return description;
@@ -70,7 +72,7 @@ class SimpleTODO {
     }
 
     public boolean Update() {
-        int affectedRow = db_helper.UpdateTODO(this.id,this.title,this.description,this.due,this.status.name(),this.updated);
+        int affectedRow = db_helper.UpdateTODO(this.id, this.getTitle(), this.getDescription(), this.getDue(),this.status.name(),this.updated);
         if (affectedRow >0){
             return true;
         }
@@ -78,7 +80,7 @@ class SimpleTODO {
     }
 
     public boolean Save() {
-        long insertID = db_helper.InsertTODO(this.title,this.description,this.due,this.status.name(),this.created,this.updated);
+        long insertID = db_helper.InsertTODO(this.getTitle(), this.getDescription(), this.getDue(),this.status.name(),this.created,this.updated);
         if (insertID !=-1){
             this.id = insertID;
             return true;
@@ -201,16 +203,28 @@ class SimpleTODO {
     public static Comparator<SimpleTODO> COMPARE_BY_TITLE = new Comparator<SimpleTODO>() {
         @Override
         public int compare(SimpleTODO o1, SimpleTODO o2) {
-            return o1.title.compareToIgnoreCase(o2.title);
+            return o1.getTitle().compareToIgnoreCase(o2.getTitle());
         }
     };
 
     public static Comparator<SimpleTODO> COMPARE_BY_DUE = new Comparator<SimpleTODO>() {
         @Override
         public int compare(SimpleTODO o1, SimpleTODO o2) {
-            return o1.due.compareTo(o2.due);
+            return o1.getDue().compareTo(o2.getDue());
         }
     };
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDue(Date due) {
+        this.due = due;
+    }
 
 
     public enum StatusEnum{

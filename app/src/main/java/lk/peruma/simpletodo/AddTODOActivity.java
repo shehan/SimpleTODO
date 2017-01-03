@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.app.TimePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,30 +21,38 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.app.AlarmManager;
 
+import java.io.Console;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class AddTODOActivity extends AppCompatActivity {
+public class AddTODOActivity extends AppCompatActivity{
 
     Button buttonSave, buttonCancel;
     EditText textTitle, textDescription, textDue, textTimeDue;
     DatePickerDialog dateDue;
     TimePickerDialog timeDue;
     Date dueDate, dueTime;
+    boolean isUpdate = false;
+    SimpleTODO simpleTODO;
 
     private SimpleDateFormat dateFormatter, timeFormatter;
+
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
+
         Calendar newCalendar = Calendar.getInstance();
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
@@ -60,6 +69,25 @@ public class AddTODOActivity extends AppCompatActivity {
         textDue.setText(dateFormatter.format(newCalendar.getTime()));
         textTimeDue.setText(timeFormatter.format(newCalendar.getTime()));
         dueDate = dueTime = newCalendar.getTime();
+
+        Intent intentItem = getIntent();
+        simpleTODO = (SimpleTODO) intentItem.getSerializableExtra("data");
+        if (simpleTODO != null){
+            isUpdate = true;
+            textTitle.setText(simpleTODO.getTitle().toString());
+            textDescription.setText(simpleTODO.getDescription().toString());
+            newCalendar.setTime(simpleTODO.getDue());
+            //newCalendar.set(simpleTODO.getDue().getYear(),simpleTODO.getDue().getMonth()-1,simpleTODO.getDue().getDay(),simpleTODO.getDue().getHours(),simpleTODO.getDue().getMinutes());
+            textDue.setText(dateFormatter.format(newCalendar.getTime()));
+            textTimeDue.setText(timeFormatter.format(newCalendar.getTime()));
+            dueDate = dueTime = newCalendar.getTime();
+            textDescription.setEnabled(true);
+            textDue.setEnabled(true);
+            textTimeDue.setEnabled(true);
+            buttonSave.setEnabled(true);
+            ((TextView) findViewById(R.id.textView)).setText("Update TODO");
+        }
+
 
         textTitle.addTextChangedListener(new TextWatcher() {
                                              @Override
@@ -153,8 +181,18 @@ public class AddTODOActivity extends AppCompatActivity {
                         reminderDate.set(year,month-1,day,hour,minutes);
                         Date due  =  reminderDate.getTime(); //dueDate; //getDateFromDatePicket(dateDue);
 
-                        SimpleTODO simpleTODO = new SimpleTODO(AddTODOActivity.this, title, description, due);
-                        if (simpleTODO.Save()) {
+                        boolean operationResult;
+                        if(!isUpdate){
+                            simpleTODO = new SimpleTODO(AddTODOActivity.this, title, description, due);
+                            operationResult = simpleTODO.Save();
+                        }
+                        else{
+                            simpleTODO.setTitle(title);
+                            simpleTODO.setDescription(description);
+                            simpleTODO.setDue(due);
+                            operationResult = simpleTODO.Update();
+                        }
+                        if (operationResult) {
                             Toast.makeText(AddTODOActivity.this, "TODO Successfully Saved!", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent("ListViewDataUpdated");
