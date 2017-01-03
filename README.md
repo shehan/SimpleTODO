@@ -1,7 +1,7 @@
 # SimpleTODO
-A simple TODO app built for devices running Android.
+A simple reminder app built for devices running Android.
 
-Fetures
+Features:
 - Add a TODO and set a reminder date & time
 - Update & Delete TODO’s
 - Mark a TODO as completed
