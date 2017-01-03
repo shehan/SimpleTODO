@@ -1,6 +1,16 @@
 # SimpleTODO
 A simple TODO app built for devices running Android.
 
+Fetures
+- Add a TODO and set a reminder date & time
+- Update & Delete TODO’s
+- Mark a TODO as completed
+- Revert a completed TOOD
+- Bulk delete completed TODO’s
+- Notifications when a TODO is due
+- Complete and Delete a TODO from the notification
+
+
 ### Screenshots
 Following are screenshots of the app
 
