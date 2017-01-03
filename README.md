@@ -9,7 +9,7 @@ Following are screenshots of the app
 <td>Home Screen</td>
 </tr>
 <tr>
-<td><img src='http://imgur.com/BgjQf2O.png'></td>
+<td><img src='http://imgur.com/BgjQf2O.png' width='20%' height='20%'></td>
 </tr>
 </table>
 
